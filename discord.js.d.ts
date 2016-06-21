@@ -241,7 +241,7 @@ declare module 'discord.js' {
         startTyping(callback?: (error: Error) => void): Promise<void>;
         stopTyping(callback?: (error: Error) => void): Promise<void>;
         addTo(role: RoleResolvable | RoleResolvable[], callback?: (error: Error) => void): Promise<void>;
-        getChannelLogs(limit: number, options?: { before: Message, after: Message }, callback?: (error: Error, messages: Message[]) => void): Promise<Message[]>;
+        getChannelLogs(limit: number, options?: { before?: Message, after?: Message, around?: Message }, callback?: (error: Error, messages: Message[]) => void): Promise<Message[]>;
         hasRole(role: RoleResolvable | RoleResolvable[]): boolean;
     }
     export class Channel extends Equality {
@@ -275,7 +275,7 @@ declare module 'discord.js' {
         send(content?: StringResolvable, options?: { tts?: boolean, file?: { file: FileResolvable, name?: string, disableEveryone?: boolean } }, callback?: (error: Error, message: Message) => void): Promise<Message>;
         sendTTS(content: StringResolvable, callback?: (error: Error, message: Message) => void): Promise<Message>;
         sendFile(attachment: FileResolvable, name?: string, content?: string, callback?: (error: Error, message: Message) => void): Promise<Message>;
-        getLogs(limit: number, options?: { before: Message, after: Message }, callback?: (error: Error, messages: Message[]) => void): Promise<Message[]>;
+        getLogs(limit: number, options?: { before?: Message, after?: Message, around?: Message }, callback?: (error: Error, messages: Message[]) => void): Promise<Message[]>;
         startTyping(callback?: (error: Error) => void): Promise<void>;
         stopTyping(callback?: (error: Error) => void): Promise<void>;
     }
@@ -287,7 +287,7 @@ declare module 'discord.js' {
         send(content?: StringResolvable, options?: { tts?: boolean, file?: { file: FileResolvable, name?: string, disableEveryone?: boolean } }, callback?: (error: Error, message: Message) => void): Promise<Message>;
         sendTTS(content: StringResolvable, callback?: (error: Error, message: Message) => void): Promise<Message>;
         sendFile(attachment: FileResolvable, name?: string, content?: string, callback?: (error: Error, message: Message) => void): Promise<Message>;
-        getLogs(limit: number, options?: { before: Message, after: Message }, callback?: (error: Error, messages: Message[]) => void): Promise<Message[]>;
+        getLogs(limit: number, options?: { before?: Message, after?: Message, around?: Message }, callback?: (error: Error, messages: Message[]) => void): Promise<Message[]>;
         startTyping(callback?: (error: Error) => void): Promise<void>;
         stopTyping(callback?: (error: Error) => void): Promise<void>;
     }
