@@ -97,6 +97,7 @@ declare module 'discord.js' {
         undeafenMember(user: UserResolvable, server: ServerResolvable, callback?: (error: Error) => void): Promise<void>;
         setNickname(server: ServerResolvable, nickname: string, user?: UserResolvable, callback?: (error: Error) => void): Promise<void>;
         getMessage(channe: ChannelResolvable, messageID: string, callback?: (error: Error, message: Message) => void): Promise<Message>;
+        setNote(user: UserResolvable, note: string, callback?: (error: Error) => void): Promise<void>;
         
         // Events
         on(event: 'ready', listener: Function): this;
@@ -128,6 +129,7 @@ declare module 'discord.js' {
         on(event: 'voiceSwitch', listener: (voiceChannel: VoiceChannel, user: User) => void): this;
         on(event: 'voiceLeave', listener: (oldVoiceChannel: VoiceChannel, newVoiceChannel: VoiceChannel, user: User) => void): this;
         on(event: 'voiceStateUpdate', listener: (voiceChannel: VoiceChannel, user: User, oldVoiceProperties: User_VoiceProperties, newVoiceProperties: User_VoiceProperties) => void): this;
+        on(event: 'noteUpdated', listener: (user: User, oldNote: string) => void): this;
         on(event: string, listener: Function): this;
     }
     
@@ -234,6 +236,7 @@ declare module 'discord.js' {
         bot: boolean;
         voiceChannel: VoiceChannel;
         createdAt: Date;
+        note: string;
         
         mention(): string;
         sendMessage(content?: StringResolvable, options?: { tts?: boolean, file?: { file: FileResolvable, name?: string, disableEveryone?: boolean } }, callback?: (error: Error, message: Message) => void): Promise<Message>;
