@@ -96,6 +96,7 @@ declare module 'discord.js' {
         deafenMember(user: UserResolvable, server: ServerResolvable, callback?: (error: Error) => void): Promise<void>;
         undeafenMember(user: UserResolvable, server: ServerResolvable, callback?: (error: Error) => void): Promise<void>;
         setNickname(server: ServerResolvable, nickname: string, user?: UserResolvable, callback?: (error: Error) => void): Promise<void>;
+        getMessage(channe: ChannelResolvable, messageID: string, callback?: (error: Error, message: Message) => void): Promise<Message>;
         
         // Events
         on(event: 'ready', listener: Function): this;
