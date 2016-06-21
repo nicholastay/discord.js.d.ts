@@ -243,7 +243,7 @@ declare module 'discord.js' {
         addTo(role: RoleResolvable | RoleResolvable[], callback?: (error: Error) => void): Promise<void>;
         getChannelLogs(limit: number, options?: { before: Message, after: Message }, callback?: (error: Error, messages: Message[]) => void): Promise<Message[]>;
         hasRole(role: RoleResolvable | RoleResolvable[]): boolean;
-}
+    }
     export class Channel extends Equality {
         id: string;
         client: Client;
