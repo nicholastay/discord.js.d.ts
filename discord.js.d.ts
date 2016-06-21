@@ -70,6 +70,7 @@ declare module 'discord.js' {
         setChannelTopic(channel: ChannelResolvable, topic: string, callback?: (error: Error) => void): Promise<void>;
         setChannelName(channel: ChannelResolvable, name: string, callback?: (error: Error) => void): Promise<void>;
         setChannelNameAndTopic(channel: ChannelResolvable, name: string, topic: string, callback?: (error: Error) => void): Promise<void>;
+        setChannelPosition(channel: ChannelResolvable, position?: number, callback?: (error: Error) => void): Promise<void>;
         setChannelUserLimit(channel: ChannelResolvable, limit: number, callback?: (error: Error) => void): Promise<void>;
         setChannelBitrate(channel: ChannelResolvable, bitrate: number, callback?: (error: Error) => void): Promise<void>;
         updateChannel(channel: ChannelResolvable, details: { name?: string, topic?: string, position?: number, userLimit?: number, bitrate?: number }, callback?: (error: Error) => void): Promise<void>;
@@ -234,7 +235,15 @@ declare module 'discord.js' {
         createdAt: Date;
         
         mention(): string;
-    }
+        sendMessage(content?: StringResolvable, options?: { tts?: boolean, file?: { file: FileResolvable, name?: string, disableEveryone?: boolean } }, callback?: (error: Error, message: Message) => void): Promise<Message>;
+        sendTTSMessage(content: StringResolvable, callback?: (error: Error, message: Message) => void): Promise<Message>;    
+        sendFile(attachment: FileResolvable, name?: string, content?: string, callback?: (error: Error, message: Message) => void): Promise<Message>;
+        startTyping(callback?: (error: Error) => void): Promise<void>;
+        stopTyping(callback?: (error: Error) => void): Promise<void>;
+        addTo(role: RoleResolvable | RoleResolvable[], callback?: (error: Error) => void): Promise<void>;
+        getChannelLogs(limit: number, options?: { before: Message, after: Message }, callback?: (error: Error, messages: Message[]) => void): Promise<Message[]>;
+        hasRole(role: RoleResolvable | RoleResolvable[]): boolean;
+}
     export class Channel extends Equality {
         id: string;
         client: Client;
@@ -252,17 +261,35 @@ declare module 'discord.js' {
         
         permissionsOf(userOrRole: User | Role): ChannelPermissions;
         mention(): string;
+        setName(name: string, callback?: (error: Error) => void): Promise<void>;
+        setPosition(position?: number, callback?: (error: Error) => void): Promise<void>;
         update(details: { name?: string, topic?: string, position?: number, userLimit?: number, bitrate?: number }, callback?: (error: Error) => void): Promise<void>;
     }
     export class TextChannel extends ServerChannel {
         topic: string;
         lastMessage: Message;
         messages: Cache<Message>;
+
+        setTopic(topic: string, callback?: (error: Error) => void): Promise<void>;
+        setNameAndTopic(name: string, topic: string, callback?: (error: Error) => void): Promise<void>;
+        send(content?: StringResolvable, options?: { tts?: boolean, file?: { file: FileResolvable, name?: string, disableEveryone?: boolean } }, callback?: (error: Error, message: Message) => void): Promise<Message>;
+        sendTTS(content: StringResolvable, callback?: (error: Error, message: Message) => void): Promise<Message>;
+        sendFile(attachment: FileResolvable, name?: string, content?: string, callback?: (error: Error, message: Message) => void): Promise<Message>;
+        getLogs(limit: number, options?: { before: Message, after: Message }, callback?: (error: Error, messages: Message[]) => void): Promise<Message[]>;
+        startTyping(callback?: (error: Error) => void): Promise<void>;
+        stopTyping(callback?: (error: Error) => void): Promise<void>;
     }
     export class PMChannel extends Channel {
         messages: Cache<Message>;
         recipient: User;
         lastMessage: Message;
+
+        send(content?: StringResolvable, options?: { tts?: boolean, file?: { file: FileResolvable, name?: string, disableEveryone?: boolean } }, callback?: (error: Error, message: Message) => void): Promise<Message>;
+        sendTTS(content: StringResolvable, callback?: (error: Error, message: Message) => void): Promise<Message>;
+        sendFile(attachment: FileResolvable, name?: string, content?: string, callback?: (error: Error, message: Message) => void): Promise<Message>;
+        getLogs(limit: number, options?: { before: Message, after: Message }, callback?: (error: Error, messages: Message[]) => void): Promise<Message[]>;
+        startTyping(callback?: (error: Error) => void): Promise<void>;
+        stopTyping(callback?: (error: Error) => void): Promise<void>;
     }
     export class VoiceChannel extends ServerChannel {
         members: Cache<User>;
@@ -270,6 +297,10 @@ declare module 'discord.js' {
         bitrate: number;
         
         setUserLimit(limit: number, callback?: (error: Error) => void): Promise<void>;
+        join(callback?: (error: Error, connection: VoiceConnection) => void): Promise<VoiceConnection>;
+        setUserLimit(imit: number, callback?: (error: Error) => void): Promise<void>;
+        setBitrate(bitrate: number, callback?: (error: Error) => void): Promise<void>;
+
     }
     export class Server extends Equality {
         client: Client;
@@ -300,6 +331,7 @@ declare module 'discord.js' {
         
         // shortcuts
         leave(callback?: (error: Error) => void): Promise<void>;
+        delete(server: Server, callback?: (error: Error) => void): Promise<void>;
         createInvite(options: { maxAge?: number, maxUses?: number, temporary?: boolean, xkcd?: boolean }, callback?: (error: Error, invite: Invite) => void): Promise<Invite>;
         createRole(data?: Role_OptionsStructure, callback?: (error: Error, role: Role) => void): Promise<Role>;
         createChannel(name: string, type?: 'text' | 'voice', callback?: (error: Error, channel: ServerChannel) => void): Promise<ServerChannel>;
@@ -327,6 +359,10 @@ declare module 'discord.js' {
         mentions: User[];
         
         isMentioned(user: User): boolean;
+        delete(options?: { wait: number }, callback?: (error: Error) => void): Promise<void>;
+        update(content: StringResolvable, options?: { tts: boolean }, callback?: (error: Error, message: Message) => void): Promise<Message>;
+        reply(content?: StringResolvable, options?: { tts: boolean }, callback?: (error: Error, message: Message) => void): Promise<Message>;
+        replyTTS(content?: StringResolvable, callback?: (error: Error, message: Message) => void): Promise<Message>;
     }
     export class Invite {
         maxAge: number;
@@ -340,6 +376,10 @@ declare module 'discord.js' {
         maxUses: number;
         inviter: User;
         xkcd: boolean;
+
+        toString(): string;
+        delete(callback?: (error: Error) => void): Promise<void>;
+        join(invite: InviteIDResolvable, callback?: (error: Error, server: Server) => void): Promise<Server>;
     }
     export class Role {
         id: string;
@@ -355,19 +395,28 @@ declare module 'discord.js' {
         serialise(): { [key: string]: boolean };
         serialize(): { [key: string]: boolean };
         hasPermission(permission: string): boolean;
+        setPermission(permission: string, value: boolean);
+        setPermissions(object: Object);
+        delete(callback?: (error: Error) => void): Promise<void>;
+        update(data: Role_OptionsStructure, callback?: (error: Error, role: Role) => void): Promise<Role>;
+        addMember(member: UserResolvable, callback?: (error: Error) => void): Promise<void>;
+        removeMember(member: UserResolvable, callback?: (error: Error) =>void): Promise<void>;
         colorAsHex(): string;
         mention(): string;
     }
     export class ChannelPermissions {
         serialise(): { [key: string]: boolean };
         serialize(): { [key: string]: boolean };
-        hasPermission(permission: string): boolean;
+        hasPermission(permission: string, explicit: boolean): boolean;
     }
     export class PermissionOverwrite {
         id: string;
         type: 'member' | 'role';
         allowed: string[];
         denied: string[];
+
+        setAllowed(allowedArray: string[]);
+        setDenied(deniedArray: string[]);
     }
     export class VoiceConnection extends events.EventEmitter {
         id: string;
@@ -389,6 +438,8 @@ declare module 'discord.js' {
         setSpeaking(value: boolean): void;
         setVolume(volume: number): void;
         getVolume(): number;
+        mute(): void;
+        unmute(): void;
         pause(): void;
         resume(): void;
         stopPlaying(): void;
