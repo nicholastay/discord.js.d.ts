@@ -98,6 +98,9 @@ declare module 'discord.js' {
         setNickname(server: ServerResolvable, nickname: string, user?: UserResolvable, callback?: (error: Error) => void): Promise<void>;
         getMessage(channe: ChannelResolvable, messageID: string, callback?: (error: Error, message: Message) => void): Promise<Message>;
         setNote(user: UserResolvable, note: string, callback?: (error: Error) => void): Promise<void>;
+        pinMessage(message: MessageResolvable, callback?: (error: Error) => void): Promise<void>;
+        unpinMessage(message: MessageResolvable, callback?: (error: Error) => void): Promise<void>;
+        getPinnedMessages(channel: ChannelResolvable, callback?: (error: Error, messages: Message[]) => void): Promise<Message[]>;
         
         // Events
         on(event: 'ready', listener: Function): this;
@@ -468,6 +471,7 @@ declare module 'discord.js' {
     type ChannelResolvable = Channel | Server | Message | User | string;
     type VoiceChannelResolvable = VoiceChannel | string;
     type ServerResolvable = Server | ServerChannel | Message | string;
+    type MessageResolvable = Message | TextChannel | PMChannel;
     type FileResolvable = ReadableStream | string;
     type RoleResolvable = Role | string;
     type StringResolvable = any[] | string;
