@@ -1,7 +1,9 @@
-# discord.js.d.ts
+**Abandoned/No longer updated. Go use something else instead, such as [acdenisSK/discord.js-typings](https://github.com/acdenisSK/discord.js-typings).**
 
-Typescript definition for the JavaScript Discord library for node.js, [hydrabolt/discord.js](https://github.com/hydrabolt/discord.js).
+# ~~discord.js.d.ts~~
 
-## License
+~~Typescript definition for the JavaScript Discord library for node.js, [hydrabolt/discord.js](https://github.com/hydrabolt/discord.js).~~
 
-ISC
+## ~~License~~
+
+~~ISC~~
